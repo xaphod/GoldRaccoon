@@ -31,6 +31,9 @@
 @property (nonatomic, assign) float maximumSize;
 @property (nonatomic, assign) float percentCompleted;
 
+@property (nonatomic, copy) dispatch_block_t successBlock;
+@property (nonatomic, copy) void(^failBlock)(NSError*);
+
 - (NSURL *)fullURL;
 - (NSURL *)fullURLWithEscape;
 - (void)start;

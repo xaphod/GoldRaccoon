@@ -26,6 +26,8 @@
 @synthesize delegate = _delegate;
 @synthesize didOpenStream = _didOpenStream;
 @synthesize path = _path;
+@synthesize successBlock = _successBlock;
+@synthesize failBlock = _failBlock;
 
 - (instancetype)initWithDelegate:(id<GRRequestDelegate>)aDelegate datasource:(id<GRRequestDataSource>)aDatasource
 {
