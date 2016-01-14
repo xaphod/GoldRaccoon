@@ -24,6 +24,8 @@
 @interface GRRequest : NSObject <NSStreamDelegate, GRRequestProtocol>
 {
     NSString *_path;
+    dispatch_block_t _successBlock;
+    void(^_failBlock)(NSError*);
 }
 
 @property (nonatomic, weak) id <GRRequestDelegate> delegate;

@@ -28,8 +28,8 @@
 @property (nonatomic, assign) BOOL delegateRespondsToPercentProgress;
 @property (nonatomic, assign) BOOL isRunning;
 
-- (id<GRRequestProtocol>)_addRequestOfType:(Class)clazz withPath:(NSString *)filePath;
-- (id<GRDataExchangeRequestProtocol>)_addDataExchangeRequestOfType:(Class)clazz withLocalPath:(NSString *)localPath remotePath:(NSString *)remotePath;
+- (id<GRRequestProtocol>)_createRequestOfType:(Class)clazz withPath:(NSString *)filePath;
+- (id<GRDataExchangeRequestProtocol>)_createDataExchangeRequestOfType:(Class)clazz withLocalPath:(NSString *)localPath remotePath:(NSString *)remotePath;
 - (void)_enqueueRequest:(id<GRRequestProtocol>)request;
 - (void)_processNextRequest;
 
@@ -110,34 +110,58 @@
 
 #pragma mark - FTP Actions
 
-- (id<GRRequestProtocol>)addRequestForListDirectoryAtPath:(NSString *)path
+- (id<GRRequestProtocol>)addRequestForListDirectoryAtPath:(NSString *)path successBlock:(dispatch_block_t)successBlock failBlock:(void(^)(NSError*))failBlock
 {
-    return [self _addRequestOfType:[GRListingRequest class] withPath:path];
+    GRListingRequest *ret = (GRListingRequest*)[self _createRequestOfType:[GRListingRequest class] withPath:path];
+    ret.successBlock = successBlock;
+    ret.failBlock = failBlock;
+    [self _enqueueRequest:ret];
+    return ret;
 }
 
-- (id<GRRequestProtocol>)addRequestForCreateDirectoryAtPath:(NSString *)path
+- (id<GRRequestProtocol>)addRequestForCreateDirectoryAtPath:(NSString *)path successBlock:(dispatch_block_t)successBlock failBlock:(void(^)(NSError*))failBlock
 {
-    return [self _addRequestOfType:[GRCreateDirectoryRequest class] withPath:path];
+    GRCreateDirectoryRequest *ret = (GRCreateDirectoryRequest*)[self _createRequestOfType:[GRCreateDirectoryRequest class] withPath:path];
+    ret.successBlock = successBlock;
+    ret.failBlock = failBlock;
+    [self _enqueueRequest:ret];
+    return ret;
 }
 
-- (id<GRRequestProtocol>)addRequestForDeleteFileAtPath:(NSString *)filePath
+- (id<GRRequestProtocol>)addRequestForDeleteFileAtPath:(NSString *)filePath successBlock:(dispatch_block_t)successBlock failBlock:(void(^)(NSError*))failBlock
 {
-    return [self _addRequestOfType:[GRDeleteRequest class] withPath:filePath];
+    GRDeleteRequest *ret = (GRDeleteRequest*)[self _createRequestOfType:[GRDeleteRequest class] withPath:filePath];
+    ret.successBlock = successBlock;
+    ret.failBlock = failBlock;
+    [self _enqueueRequest:ret];
+    return ret;
 }
 
-- (id<GRRequestProtocol>)addRequestForDeleteDirectoryAtPath:(NSString *)path
+- (id<GRRequestProtocol>)addRequestForDeleteDirectoryAtPath:(NSString *)path successBlock:(dispatch_block_t)successBlock failBlock:(void(^)(NSError*))failBlock
 {
-    return [self _addRequestOfType:[GRDeleteRequest class] withPath:path];
+    GRDeleteRequest *ret = (GRDeleteRequest*)[self _createRequestOfType:[GRDeleteRequest class] withPath:path];
+    ret.successBlock = successBlock;
+    ret.failBlock = failBlock;
+    [self _enqueueRequest:ret];
+    return ret;
 }
 
-- (id<GRDataExchangeRequestProtocol>)addRequestForDownloadFileAtRemotePath:(NSString *)remotePath toLocalPath:(NSString *)localPath
+- (id<GRDataExchangeRequestProtocol>)addRequestForDownloadFileAtRemotePath:(NSString *)remotePath toLocalPath:(NSString *)localPath successBlock:(dispatch_block_t)successBlock failBlock:(void(^)(NSError*))failBlock
 {
-    return [self _addDataExchangeRequestOfType:[GRDownloadRequest class] withLocalPath:localPath remotePath:remotePath];
+    GRDownloadRequest *ret = (GRDownloadRequest*)[self _createDataExchangeRequestOfType:[GRDownloadRequest class] withLocalPath:localPath remotePath:remotePath];
+    ret.successBlock = successBlock;
+    ret.failBlock = failBlock;
+    [self _enqueueRequest:ret];
+    return ret;
 }
 
-- (id<GRDataExchangeRequestProtocol>)addRequestForUploadFileAtLocalPath:(NSString *)localPath toRemotePath:(NSString *)remotePath
+- (id<GRDataExchangeRequestProtocol>)addRequestForUploadFileAtLocalPath:(NSString *)localPath toRemotePath:(NSString *)remotePath successBlock:(dispatch_block_t)successBlock failBlock:(void(^)(NSError*))failBlock
 {
-    return [self _addDataExchangeRequestOfType:[GRUploadRequest class] withLocalPath:localPath remotePath:remotePath];
+    GRUploadRequest *ret = (GRUploadRequest*)[self _createDataExchangeRequestOfType:[GRUploadRequest class] withLocalPath:localPath remotePath:remotePath];
+    ret.successBlock = successBlock;
+    ret.failBlock = failBlock;
+    [self _enqueueRequest:ret];
+    return ret;
 }
 
 #pragma mark - GRRequestDelegate required
@@ -266,22 +290,22 @@
 
 #pragma mark - Private Methods
 
-- (id<GRRequestProtocol>)_addRequestOfType:(Class)clazz withPath:(NSString *)filePath
+- (id<GRRequestProtocol>)_createRequestOfType:(Class)clazz withPath:(NSString *)filePath
 {
     id<GRRequestProtocol> request = [[clazz alloc] initWithDelegate:self datasource:self];
     request.path = filePath;
     
-    [self _enqueueRequest:request];
+//    [self _enqueueRequest:request];
     return request;
 }
 
-- (id<GRDataExchangeRequestProtocol>)_addDataExchangeRequestOfType:(Class)clazz withLocalPath:(NSString *)localPath remotePath:(NSString *)remotePath
+- (id<GRDataExchangeRequestProtocol>)_createDataExchangeRequestOfType:(Class)clazz withLocalPath:(NSString *)localPath remotePath:(NSString *)remotePath
 {
     id<GRDataExchangeRequestProtocol> request = [[clazz alloc] initWithDelegate:self datasource:self];
     request.path = remotePath;
     request.localFilePath = localPath;
     
-    [self _enqueueRequest:request];
+//    [self _enqueueRequest:request];
     return request;
 }
 

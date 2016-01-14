@@ -108,28 +108,28 @@
  @param path The path of the directory to list.
  @return The created request, conforming to GRRequestProtocol.
  */
-- (id<GRRequestProtocol>)addRequestForListDirectoryAtPath:(NSString *)path;
+- (id<GRRequestProtocol>)addRequestForListDirectoryAtPath:(NSString *)path successBlock:(dispatch_block_t)successBlock failBlock:(void(^)(NSError*))failBlock;
 
 /**
  @brief Add a request to the manager for creating a directory at a given path.
  @param path The path of the directory to create.
  @return The created request, conforming to GRRequestProtocol.
  */
-- (id<GRRequestProtocol>)addRequestForCreateDirectoryAtPath:(NSString *)path;
+- (id<GRRequestProtocol>)addRequestForCreateDirectoryAtPath:(NSString *)path successBlock:(dispatch_block_t)successBlock failBlock:(void(^)(NSError*))failBlock;
 
 /**
  @brief Add a request to the manager for deleting a file at a given path.
  @param filePath The path of the file to delete.
  @return The created request, conforming to GRRequestProtocol.
  */
-- (id<GRRequestProtocol>)addRequestForDeleteFileAtPath:(NSString *)filePath;
+- (id<GRRequestProtocol>)addRequestForDeleteFileAtPath:(NSString *)filePath successBlock:(dispatch_block_t)successBlock failBlock:(void(^)(NSError*))failBlock;
 
 /**
  @brief Add a request to the manager for deleting a directory at a given path.
  @param path The path of the directory to delete.
  @return The created request, conforming to GRRequestProtocol.
  */
-- (id<GRRequestProtocol>)addRequestForDeleteDirectoryAtPath:(NSString *)path;
+- (id<GRRequestProtocol>)addRequestForDeleteDirectoryAtPath:(NSString *)path successBlock:(dispatch_block_t)successBlock failBlock:(void(^)(NSError*))failBlock;
 
 /**
  @brief Add a request to the manager for downloading a file at a given relative remote path to a given local absolute path.
@@ -137,7 +137,7 @@
  @param localPath The local absolute path to use for downloading the remote file.
  @return The created request, conforming to GRDataExchangeRequestProtocol.
  */
-- (id<GRDataExchangeRequestProtocol>)addRequestForDownloadFileAtRemotePath:(NSString *)remotePath toLocalPath:(NSString *)localPath;
+- (id<GRDataExchangeRequestProtocol>)addRequestForDownloadFileAtRemotePath:(NSString *)remotePath toLocalPath:(NSString *)localPath successBlock:(dispatch_block_t)successBlock failBlock:(void(^)(NSError*))failBlock;
 
 /**
  @brief Add a request to the manager for uploading a file from a given local absolute path to a given relative remote path.
@@ -145,7 +145,7 @@
  @param remotePath The remote relative path to use for uploading the local file.
  @return The created request, conforming to GRDataExchangeRequestProtocol.
  */
-- (id<GRDataExchangeRequestProtocol>)addRequestForUploadFileAtLocalPath:(NSString *)localPath toRemotePath:(NSString *)remotePath;
+- (id<GRDataExchangeRequestProtocol>)addRequestForUploadFileAtLocalPath:(NSString *)localPath toRemotePath:(NSString *)remotePath successBlock:(dispatch_block_t)successBlock failBlock:(void(^)(NSError*))failBlock;
 
 /**
  @brief Start the manager to process the requests.
