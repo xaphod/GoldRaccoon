@@ -73,6 +73,11 @@
 
 - (void)requestFailed:(GRRequest *)request
 {
+    if( self.failBlock && !request.failBlock )
+        request.failBlock = [self.failBlock copy];
+    if( self.successBlock && !request.successBlock )
+        request.successBlock = [self.successBlock copy];
+
     [self.delegate requestFailed:request];
 }
 
