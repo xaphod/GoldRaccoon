@@ -110,11 +110,12 @@
 
 #pragma mark - FTP Actions
 
-- (id<GRRequestProtocol>)addRequestForListDirectoryAtPath:(NSString *)path successBlock:(dispatch_block_t)successBlock failBlock:(void(^)(NSError*))failBlock
+- (id<GRRequestProtocol>)addRequestForListDirectoryAtPath:(NSString *)path successBlock:(dispatch_block_t)successBlock failBlock:(void(^)(NSError*))failBlock passive:(BOOL)passive
 {
     GRListingRequest *ret = (GRListingRequest*)[self _createRequestOfType:[GRListingRequest class] withPath:path];
     ret.successBlock = successBlock;
     ret.failBlock = failBlock;
+    ret.passiveMode = passive;
     [self _enqueueRequest:ret];
     return ret;
 }
@@ -146,20 +147,22 @@
     return ret;
 }
 
-- (id<GRDataExchangeRequestProtocol>)addRequestForDownloadFileAtRemotePath:(NSString *)remotePath toLocalPath:(NSString *)localPath successBlock:(dispatch_block_t)successBlock failBlock:(void(^)(NSError*))failBlock
+- (id<GRDataExchangeRequestProtocol>)addRequestForDownloadFileAtRemotePath:(NSString *)remotePath toLocalPath:(NSString *)localPath successBlock:(dispatch_block_t)successBlock failBlock:(void(^)(NSError*))failBlock passive:(BOOL)passive
 {
     GRDownloadRequest *ret = (GRDownloadRequest*)[self _createDataExchangeRequestOfType:[GRDownloadRequest class] withLocalPath:localPath remotePath:remotePath];
     ret.successBlock = successBlock;
     ret.failBlock = failBlock;
+    ret.passiveMode = passive;
     [self _enqueueRequest:ret];
     return ret;
 }
 
-- (id<GRDataExchangeRequestProtocol>)addRequestForUploadFileAtLocalPath:(NSString *)localPath toRemotePath:(NSString *)remotePath successBlock:(dispatch_block_t)successBlock failBlock:(void(^)(NSError*))failBlock
+- (id<GRDataExchangeRequestProtocol>)addRequestForUploadFileAtLocalPath:(NSString *)localPath toRemotePath:(NSString *)remotePath successBlock:(dispatch_block_t)successBlock failBlock:(void(^)(NSError*))failBlock passive:(BOOL)passive
 {
     GRUploadRequest *ret = (GRUploadRequest*)[self _createDataExchangeRequestOfType:[GRUploadRequest class] withLocalPath:localPath remotePath:remotePath];
     ret.successBlock = successBlock;
     ret.failBlock = failBlock;
+    ret.passiveMode = passive;
     [self _enqueueRequest:ret];
     return ret;
 }

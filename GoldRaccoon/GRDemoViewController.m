@@ -30,7 +30,7 @@
 - (IBAction)listingButton:(id)sender
 {
     [self _setupManager];
-    [self.requestsManager addRequestForListDirectoryAtPath:@"/" successBlock:nil failBlock:nil];
+    [self.requestsManager addRequestForListDirectoryAtPath:@"/" successBlock:nil failBlock:nil passive:YES];
     [self.requestsManager startProcessingRequests];
 }
 
@@ -59,7 +59,7 @@
 {
     [self _setupManager];
     NSString *bundlePath = [[NSBundle mainBundle] pathForResource:@"TestFile" ofType:@"txt"];
-    [self.requestsManager addRequestForUploadFileAtLocalPath:bundlePath toRemotePath:@"dir/file.txt" successBlock:nil failBlock:nil];
+    [self.requestsManager addRequestForUploadFileAtLocalPath:bundlePath toRemotePath:@"dir/file.txt" successBlock:nil failBlock:nil passive:YES];
     [self.requestsManager startProcessingRequests];
 }
 
@@ -69,7 +69,7 @@
     NSString *documentsDirectoryPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
     NSString *localFilePath = [documentsDirectoryPath stringByAppendingPathComponent:@"DownloadedFile.txt"];
 
-    [self.requestsManager addRequestForDownloadFileAtRemotePath:@"dir/file.txt" toLocalPath:localFilePath successBlock:nil failBlock:nil];
+    [self.requestsManager addRequestForDownloadFileAtRemotePath:@"dir/file.txt" toLocalPath:localFilePath successBlock:nil failBlock:nil passive:YES];
     [self.requestsManager startProcessingRequests];
 }
 
