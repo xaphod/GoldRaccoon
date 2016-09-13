@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name     = 'GoldRaccoon'
-  s.version  = '1.0.4'
+  s.version  = '1.0.5'
   s.platform = :ios, '5.0'
   s.summary  = 'An iOS component that allow you to connect to a FTP service and perform the operations you need.'
   s.description  = 'GoldRaccoon is a iOS component that allow you to connect to a FTP service and perform listing, creation, deletion, upload and download operations.'

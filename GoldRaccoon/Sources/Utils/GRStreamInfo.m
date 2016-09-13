@@ -49,9 +49,11 @@
     
     // a little bit of C because I was not able to make NSInputStream play nice
     CFReadStreamRef readStreamRef = CFReadStreamCreateWithFTPURL(NULL, ( __bridge CFURLRef) request.fullURL);
-    CFReadStreamSetProperty(readStreamRef,
-                            kCFStreamPropertyFTPAttemptPersistentConnection,
-                            kCFBooleanFalse);
+    
+// Commented out by xaphod on 13.9.16: this causes transfers of images (like JPGs) to be corrupted from iOS 10 to macOS
+//    CFReadStreamSetProperty(readStreamRef,
+//                            kCFStreamPropertyFTPAttemptPersistentConnection,
+//                            kCFBooleanFalse);
     
     CFReadStreamSetProperty(readStreamRef, kCFStreamPropertyShouldCloseNativeSocket, kCFBooleanTrue);
 	CFReadStreamSetProperty(readStreamRef, kCFStreamPropertyFTPUsePassiveMode, request.passiveMode ? kCFBooleanTrue :kCFBooleanFalse);
@@ -94,9 +96,11 @@
     }
     
     CFWriteStreamRef writeStreamRef = CFWriteStreamCreateWithFTPURL(NULL, ( __bridge CFURLRef) request.fullURL);
-    CFWriteStreamSetProperty(writeStreamRef,
-                             kCFStreamPropertyFTPAttemptPersistentConnection,
-                             kCFBooleanFalse);
+    
+// Commented out by xaphod on 13.9.16: this causes transfers of images (like JPGs) to be corrupted from iOS 10 to macOS
+//    CFWriteStreamSetProperty(writeStreamRef,
+//                             kCFStreamPropertyFTPAttemptPersistentConnection,
+//                             kCFBooleanFalse);
     
     CFWriteStreamSetProperty(writeStreamRef, kCFStreamPropertyShouldCloseNativeSocket, kCFBooleanTrue);
 	CFWriteStreamSetProperty(writeStreamRef, kCFStreamPropertyFTPUsePassiveMode, request.passiveMode ? kCFBooleanTrue :kCFBooleanFalse);
